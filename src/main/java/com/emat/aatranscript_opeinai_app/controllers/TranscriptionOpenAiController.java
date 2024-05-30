@@ -4,7 +4,6 @@ package com.emat.aatranscript_opeinai_app.controllers;
 import com.emat.aatranscript_opeinai_app.model.Answer;
 import com.emat.aatranscript_opeinai_app.model.Question;
 import com.emat.aatranscript_opeinai_app.services.TranscriptionOpenAiService;
-import groovy.util.logging.Slf4j;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +27,13 @@ public class TranscriptionOpenAiController {
     public ResponseEntity<Answer> askQuestion(@RequestBody @Valid RestOpenAiRequest request) {
         log.info("Received request to ask question: {}", request.question());
         Answer answer = transcriptionOpenAiService.getAnswer(Question.fromRestOpenAiRequest(request));
+        return ResponseEntity.ok(answer);
+    }
+
+    @PostMapping(value = "/capital", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Answer> getCapital(@RequestBody @Valid RestCapitalRequest request) {
+        log.info("Received request to get capital: {}", request.countryName());
+        Answer answer = transcriptionOpenAiService.getCapital(Question.fromRestCapitalRequest(request));
         return ResponseEntity.ok(answer);
     }
 }
