@@ -1,28 +1,30 @@
-package com.emat.aatranscript_opeinai_app;
+package com.emat.aatranscript_opeinai_app.global;
 
-import org.springframework.ai.autoconfigure.openai.OpenAiChatProperties;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.ai.openai.OpenAiAudioSpeechModel;
 import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class Cfg {
+public class OpenApiConfiguration {
 
     @Value("${spring.ai.openai.api-key}")
     private String apiKey;
 
+
     @Bean
-    public ChatClient chatClient() {
-        OpenAiChatProperties
-        ChatModel chatModel = new OpenAiChatModel(new OpenAiApi(apiKey));
-        return ChatClient.create(chatModel);
+    public OpeApiParams getOpeApiParams() {
+        return new OpeApiParams(apiKey);
     }
+
+//    @Bean
+//    public ChatClient chatClient() {
+//        ChatModel chatModel = new OpenAiChatModel(new OpenAiApi(apiKey));
+//        return ChatClient.create(chatModel);
+//    }
 
     @Bean
     public freemarker.template.Configuration freemarkerConfig() {
