@@ -2,8 +2,12 @@ package com.emat.aatranscript_opeinai_app.controllers;
 
 
 import com.emat.aatranscript_opeinai_app.model.Answer;
+import com.emat.aatranscript_opeinai_app.model.Question;
 import com.emat.aatranscript_opeinai_app.services.TranscriptionOpenAiService;
+import groovy.util.logging.Slf4j;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,14 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/transcript/openai")
 public class TranscriptionOpenAiController {
+    private static final Logger log = LoggerFactory.getLogger(TranscriptionOpenAiController.class);
     private final TranscriptionOpenAiService transcriptionOpenAiService;
 
     public TranscriptionOpenAiController(TranscriptionOpenAiService transcriptionOpenAiService) {
         this.transcriptionOpenAiService = transcriptionOpenAiService;
     }
 
-    @PostMapping
+    @PostMapping(value = "/ask", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Answer> askQuestion(@RequestBody @Valid RestOpenAiRequest request) {
-        return null;
+        log.info("Received request to ask question: {}", request.question());
+        Answer answer = transcriptionOpenAiService.getAnswer(Question.fromRestOpenAiRequest(request));
+        return ResponseEntity.ok(answer);
     }
 }
