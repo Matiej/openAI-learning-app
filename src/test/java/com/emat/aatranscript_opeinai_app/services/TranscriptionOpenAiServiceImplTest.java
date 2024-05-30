@@ -1,5 +1,7 @@
 package com.emat.aatranscript_opeinai_app.services;
 
+import com.emat.aatranscript_opeinai_app.model.Answer;
+import com.emat.aatranscript_opeinai_app.model.Question;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +17,11 @@ class TranscriptionOpenAiServiceImplTest {
 
     @Test
     void getAnswer() {
-        String question = "What is the capital of Poland and what are two biggest cites in that country?";
-        String answer = transcriptionOpenAiService.getAnswer(question);
+        Question question = new Question("What is the capital of Poland and what are two biggest cites in that country?");
+        Answer answer = transcriptionOpenAiService.getAnswer(question);
         assertNotNull(answer);
-        assertTrue(answer.contains("Warsaw") && answer.contains("Krakow"));
-        System.out.printf(answer);
+        String answerContent = answer.getAnswer();
+        assertTrue(answerContent.contains("Warsaw") && answerContent.contains("Krakow"));
+        System.out.printf(answerContent);
     }
 }
