@@ -2,6 +2,7 @@ package com.emat.aatranscript_opeinai_app.controllers;
 
 
 import com.emat.aatranscript_opeinai_app.model.Answer;
+import com.emat.aatranscript_opeinai_app.model.CapitalResponse;
 import com.emat.aatranscript_opeinai_app.model.Question;
 import com.emat.aatranscript_opeinai_app.services.TranscriptionOpenAiService;
 import jakarta.validation.Valid;
@@ -31,9 +32,9 @@ public class TranscriptionOpenAiController {
     }
 
     @PostMapping(value = "/capital", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Answer> getCapital(@RequestBody @Valid RestCapitalRequest request) {
+    public ResponseEntity<CapitalResponse> getCapital(@RequestBody @Valid RestCapitalRequest request) {
         log.info("Received request to get capital: {}", request.countryName());
-        Answer answer = transcriptionOpenAiService.getCapital(Question.fromRestCapitalRequest(request));
-        return ResponseEntity.ok(answer);
+        CapitalResponse response = transcriptionOpenAiService.getCapital(Question.fromRestCapitalRequest(request));
+        return ResponseEntity.ok(response);
     }
 }

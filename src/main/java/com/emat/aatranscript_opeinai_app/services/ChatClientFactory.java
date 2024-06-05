@@ -31,6 +31,7 @@ public class ChatClientFactory {
                     .withModel(chatModelEnum)
                     .withMaxTokens(MAX_TOKENS)
                     .withTemperature(TEMPERATURE)
+                    .withLogprobs(true) // Enable log probabilities
                     .build();
             OpenAiChatModel openAiChatModel = new OpenAiChatModel(new OpenAiApi(opeApiParams.getOpenAIKey()), options);
             ChatClient client = ChatClient.create(openAiChatModel);
