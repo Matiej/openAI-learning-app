@@ -14,23 +14,9 @@ public class OpenApiConfiguration {
     @Value("${spring.ai.openai.api-key}")
     private String apiKey;
 
-
     @Bean
     public OpeApiParams getOpeApiParams() {
         return new OpeApiParams(apiKey);
     }
 
-//    @Bean
-//    public ChatClient chatClient() {
-//        ChatModel chatModel = new OpenAiChatModel(new OpenAiApi(apiKey));
-//        return ChatClient.create(chatModel);
-//    }
-
-    @Bean
-    public freemarker.template.Configuration freemarkerConfig() {
-        freemarker.template.Configuration configuration = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_31);
-        configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
-        configuration.setDefaultEncoding("UTF-8");
-        return configuration;
-    }
 }
