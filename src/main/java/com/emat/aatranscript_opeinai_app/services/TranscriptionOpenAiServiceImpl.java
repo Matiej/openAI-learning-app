@@ -11,6 +11,8 @@ import groovy.util.logging.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.metadata.ChatResponseMetadata;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -69,10 +71,11 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
         List<Message> instructions = new ArrayList<>(systemPrompt.getInstructions());
         instructions.addAll(userPrompt.getInstructions());
 
-        String openAiJsonResponse = client.prompt()
+        ChatResponse chatResponse = client.prompt()
                 .system(LANGUAGE_PROMPT)
                 .messages(instructions)
-                .call().content();
+                .call().chatResponse();
+        String openAiJsonResponse = chatResponse.getResult().getOutput().getContent();
 
         log.info("Received 'getCapital' openAiJsonResponse from OpenAI: {}", openAiJsonResponse);
         return parser.convert(openAiJsonResponse);
