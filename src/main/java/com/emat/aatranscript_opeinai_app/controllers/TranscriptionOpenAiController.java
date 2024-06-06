@@ -2,6 +2,7 @@ package com.emat.aatranscript_opeinai_app.controllers;
 
 
 import com.emat.aatranscript_opeinai_app.model.Answer;
+import com.emat.aatranscript_opeinai_app.model.CapitalDetailsResponse;
 import com.emat.aatranscript_opeinai_app.model.CapitalResponse;
 import com.emat.aatranscript_opeinai_app.model.Question;
 import com.emat.aatranscript_opeinai_app.services.TranscriptionOpenAiService;
@@ -35,6 +36,13 @@ public class TranscriptionOpenAiController {
     public ResponseEntity<CapitalResponse> getCapital(@RequestBody @Valid RestCapitalRequest request) {
         log.info("Received request to get capital: {}", request.countryName());
         CapitalResponse response = transcriptionOpenAiService.getCapital(Question.fromRestCapitalRequest(request));
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(value = "capital/details", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<CapitalDetailsResponse> getCapitalWithDetails(@RequestBody @Valid RestCapitalRequest request) {
+        log.info("Received request to get capital with details: {}", request.countryName());
+        CapitalDetailsResponse response = transcriptionOpenAiService.getCapitalWithDetails(Question.fromRestCapitalRequest(request));
         return ResponseEntity.ok(response);
     }
 }
