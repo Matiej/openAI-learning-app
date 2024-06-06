@@ -1,6 +1,7 @@
 package com.emat.aatranscript_opeinai_app.services;
 
 import com.emat.aatranscript_opeinai_app.model.Answer;
+import com.emat.aatranscript_opeinai_app.model.CapitalDetailsResponse;
 import com.emat.aatranscript_opeinai_app.model.CapitalResponse;
 import com.emat.aatranscript_opeinai_app.model.Question;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -79,6 +80,30 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
 
         log.info("Received 'getCapital' openAiJsonResponse from OpenAI: {}", openAiJsonResponse);
         return parser.convert(openAiJsonResponse);
+    }
+
+    @Override
+    public CapitalDetailsResponse getCapitalWithDetails(Question question) {
+        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
+        BeanOutputConverter<CapitalDetailsResponse> parser = new BeanOutputConverter<>(CapitalDetailsResponse.class);
+        String capitalDetailResponseJSON = parser.getFormat();
+        List<Message> instructions = getInstructions(systemPromptResource, "capitalResponse", capitalDetailResponseJSON);
+        instructions.addAll(getInstructions(userPromptResource, "country", question.getQuestion()));
+
+        ChatResponse chatResponse = client.prompt()
+                .system(LANGUAGE_PROMPT)
+                .messages(instructions)
+                .call().chatResponse();
+        String openAiJsonResponse = chatResponse.getResult().getOutput().getContent();
+
+        log.info("Received 'getCapitalWithDetails' openAiJsonResponse from OpenAI: {}", openAiJsonResponse);
+        return parser.convert(openAiJsonResponse);
+    }
+
+    private List<Message> getInstructions(Resource template, String keyWord, String value) {
+        PromptTemplate userPromptTemplate = new PromptTemplate(template);
+        Prompt prompt = userPromptTemplate.create(Map.of(keyWord, value));
+        return new ArrayList<>(prompt.getInstructions());
     }
 
 
