@@ -1,5 +1,6 @@
 package com.emat.aatranscript_opeinai_app.services;
 
+import com.emat.aatranscript_opeinai_app.clear_instructions.BaseTest;
 import com.emat.aatranscript_opeinai_app.model.Answer;
 import com.emat.aatranscript_opeinai_app.model.Question;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class TranscriptionOpenAiServiceImplTest {
+class TranscriptionOpenAiServiceImplTest extends BaseTest {
 
     @Autowired
     TranscriptionOpenAiServiceImpl transcriptionOpenAiService;
