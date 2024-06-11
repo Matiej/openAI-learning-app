@@ -12,6 +12,7 @@ import groovy.util.logging.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.metadata.ChatResponseMetadata;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.stringtemplate.v4.compiler.Bytecode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +105,9 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
     private List<Message> getInstructions(Resource template, String keyWord, String value) {
         PromptTemplate userPromptTemplate = new PromptTemplate(template);
         Prompt prompt = userPromptTemplate.create(Map.of(keyWord, value));
-        return new ArrayList<>(prompt.getInstructions());
+        List<Message> instructions = prompt.getInstructions();
+//        UserMessage userInstruction = new UserMessage(instructions.getFirst().getMedia());
+        return new ArrayList<>(instructions);
     }
 
 
