@@ -2,6 +2,7 @@ package com.emat.aatranscript_opeinai_app;
 
 import com.emat.aatranscript_opeinai_app.global.OpeApiParams;
 import com.emat.aatranscript_opeinai_app.global.OpenApiConfiguration;
+import org.springframework.ai.autoconfigure.openai.OpenAiChatProperties;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -26,6 +27,14 @@ public class ConfigTestClass {
         OpenAiChatModel openAiChatModel = new OpenAiChatModel(openAiApi, openAiChatOptions);
         // Tutaj zdefiniuj instancję OpenAiChatModel dla testów
         return openAiChatModel;
+    }
+
+    @Bean
+    public OpenAiChatProperties openAiChatProperties() {
+        OpenAiChatProperties openAiChatProperties = new OpenAiChatProperties();
+//        openAiChatProperties.setApiKey(apiKey);
+//        openAiChatProperties.se(OpenAiApi.ChatModel.GPT_4.value);
+        return openAiChatProperties;
     }
 
 
