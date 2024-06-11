@@ -4,23 +4,20 @@ import com.emat.aatranscript_opeinai_app.model.Answer;
 import com.emat.aatranscript_opeinai_app.model.CapitalDetailsResponse;
 import com.emat.aatranscript_opeinai_app.model.CapitalResponse;
 import com.emat.aatranscript_opeinai_app.model.Question;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.Configuration;
 import groovy.util.logging.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.metadata.ChatResponseMetadata;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.ai.chat.prompt.PromptTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +100,9 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
     private List<Message> getInstructions(Resource template, String keyWord, String value) {
         PromptTemplate userPromptTemplate = new PromptTemplate(template);
         Prompt prompt = userPromptTemplate.create(Map.of(keyWord, value));
-        return new ArrayList<>(prompt.getInstructions());
+        List<Message> instructions = prompt.getInstructions();
+//        UserMessage userInstruction = new UserMessage(instructions.getFirst().getMedia());
+        return new ArrayList<>(instructions);
     }
 
 

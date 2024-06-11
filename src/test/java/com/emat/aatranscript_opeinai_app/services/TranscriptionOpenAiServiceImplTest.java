@@ -1,8 +1,8 @@
 package com.emat.aatranscript_opeinai_app.services;
 
-import com.emat.aatranscript_opeinai_app.clear_instructions.BaseTest;
 import com.emat.aatranscript_opeinai_app.model.Answer;
 import com.emat.aatranscript_opeinai_app.model.Question;
+import com.emat.aatranscript_opeinai_app.modelpromptengineering.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

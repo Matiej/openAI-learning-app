@@ -1,12 +1,8 @@
-package com.emat.aatranscript_opeinai_app.clear_instructions;
+package com.emat.aatranscript_opeinai_app.modelpromptengineering;
 
-import com.emat.aatranscript_opeinai_app.ConfigTestClass;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Map;
 
