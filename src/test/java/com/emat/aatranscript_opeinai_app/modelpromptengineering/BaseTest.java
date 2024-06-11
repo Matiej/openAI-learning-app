@@ -1,4 +1,4 @@
-package com.emat.aatranscript_opeinai_app.clear_instructions;
+package com.emat.aatranscript_opeinai_app.modelpromptengineering;
 
 import com.emat.aatranscript_opeinai_app.ConfigTestClass;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -6,7 +6,6 @@ import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;

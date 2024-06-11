@@ -22,9 +22,11 @@ public class ConfigTestClass {
     public OpenAiChatModel openAiChatModel() {
         OpenAiApi openAiApi = new OpenAiApi(apiKey);
         OpenAiChatOptions openAiChatOptions = new OpenAiChatOptions();
-        openAiChatOptions.setModel(OpenAiApi.ChatModel.GPT_4_O.value);
+        openAiChatOptions.setModel(OpenAiApi.ChatModel.GPT_4.value);
         OpenAiChatModel openAiChatModel = new OpenAiChatModel(openAiApi, openAiChatOptions);
         // Tutaj zdefiniuj instancję OpenAiChatModel dla testów
         return openAiChatModel;
     }
+
+
 }
