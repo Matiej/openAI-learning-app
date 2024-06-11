@@ -1,7 +1,5 @@
 package com.emat.aatranscript_opeinai_app;
 
-import com.emat.aatranscript_opeinai_app.global.OpeApiParams;
-import com.emat.aatranscript_opeinai_app.global.OpenApiConfiguration;
 import org.springframework.ai.autoconfigure.openai.OpenAiChatProperties;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.test.context.ActiveProfiles;
 
 @Configuration
 @PropertySource("classpath:application-test.properties")

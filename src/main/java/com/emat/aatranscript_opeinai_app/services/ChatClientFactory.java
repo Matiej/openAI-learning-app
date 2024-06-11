@@ -1,8 +1,6 @@
 package com.emat.aatranscript_opeinai_app.services;
 
 import com.emat.aatranscript_opeinai_app.global.OpeApiParams;
-import jakarta.annotation.PostConstruct;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
