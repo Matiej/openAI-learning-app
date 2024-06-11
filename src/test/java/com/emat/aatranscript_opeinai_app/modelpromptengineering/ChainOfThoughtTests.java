@@ -3,7 +3,10 @@ package com.emat.aatranscript_opeinai_app.modelpromptengineering;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.autoconfigure.openai.OpenAiChatProperties;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,17 +15,18 @@ public class ChainOfThoughtTests extends BaseTest{
 
     @Autowired
     OpenAiChatProperties openAiChatProperties;
-    
+
     @Test
     void testTraditionalPrompt() {
+        OpenAiChatOptions openAiChatOptions_open3 = OpenAiChatOptions.builder().withModel(OpenAiApi.ChatModel.GPT_3_5_TURBO.value).build();
         String prompt = """
                 Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls, each containing 3 balls. \s
                 How many tennis balls does Roger have now?
                 """;
 
         PromptTemplate promptTemplate = new PromptTemplate(prompt);
-
-        ChatResponse response = openAiChatClient.call(promptTemplate.create());
+        Prompt prompt3 = new Prompt(promptTemplate.createMessage(), openAiChatOptions_open3);
+        ChatResponse response = openAiChatClient.call(prompt3);
 
         //models previously would answer 27
         System.out.println(response.getResult().getOutput().getContent());
