@@ -45,4 +45,11 @@ public class TranscriptionOpenAiController {
         CapitalDetailsResponse response = transcriptionOpenAiService.getCapitalWithDetails(Question.fromRestCapitalRequest(request));
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping(value = "/ask/vector-store", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Answer> askQuestionWithVectorStore(@RequestBody @Valid RestOpenAiRequest request) {
+        log.info("Received request to ask question with vector store: {}, on endpoint: '/ask/vector-store'.", request.question());
+        Answer answer = transcriptionOpenAiService.getAnswerWithVectorStore(Question.fromRestOpenAiRequest(request));
+        return ResponseEntity.ok(answer);
+    }
 }

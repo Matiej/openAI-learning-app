@@ -11,4 +11,5 @@ public interface TranscriptionOpenAiService {
 
     CapitalDetailsResponse getCapitalWithDetails(Question question);
 
+    Answer getAnswerWithVectorStore(Question question);
 }
