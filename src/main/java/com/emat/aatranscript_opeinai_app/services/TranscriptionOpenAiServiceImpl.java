@@ -4,9 +4,7 @@ import com.emat.aatranscript_opeinai_app.model.Answer;
 import com.emat.aatranscript_opeinai_app.model.CapitalDetailsResponse;
 import com.emat.aatranscript_opeinai_app.model.CapitalResponse;
 import com.emat.aatranscript_opeinai_app.model.Question;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import freemarker.template.Configuration;
-import groovy.util.logging.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.Message;
@@ -14,7 +12,10 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.ai.document.Document;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -26,22 +27,21 @@ import java.util.Map;
 @Slf4j
 @Service
 class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TranscriptionOpenAiServiceImpl.class);
     private final String LANGUAGE_PROMPT = "Answer using english language.";
-    private final Configuration freemarkerConfig;
     private final ChatClientFactory chatClientFactory;
-    private final ObjectMapper objectMapper;
+    private final SimpleVectorStore simpleVectorStore;
 
-    public TranscriptionOpenAiServiceImpl(Configuration freemarkerConfig, ChatClientFactory chatClientFactory, ObjectMapper objectMapper) {
-        this.freemarkerConfig = freemarkerConfig;
+    public TranscriptionOpenAiServiceImpl(ChatClientFactory chatClientFactory, SimpleVectorStore simpleVectorStore) {
         this.chatClientFactory = chatClientFactory;
-        this.objectMapper = objectMapper;
+        this.simpleVectorStore = simpleVectorStore;
     }
 
     @Value("classpath:templates/get-capital-system-prompt.st")
     private Resource systemPromptResource;
     @Value("classpath:templates/get-capital-user-prompt.st")
     private Resource userPromptResource;
+    @Value("classpath:templates/rag-prompt.st")
+    private Resource ragPromptResource;
 
     @Override
     public Answer getAnswer(Question question) {
@@ -95,6 +95,25 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
 
         log.info("Received 'getCapitalWithDetails' openAiJsonResponse from OpenAI: {}", openAiJsonResponse);
         return parser.convert(openAiJsonResponse);
+    }
+
+    @Override
+    public Answer getAnswerWithVectorStore(Question question) {
+        List<Document> documents = simpleVectorStore.similaritySearch(SearchRequest
+                .query(question.getQuestion())
+                .withTopK(4));
+        List<String> contentList = documents.stream().map(Document::getContent).toList();
+
+        PromptTemplate promptTemplate = new PromptTemplate(ragPromptResource);
+        Prompt prompt = promptTemplate.create(Map.of("input", question.getQuestion(),
+                "documents", String.join("\n", contentList)));
+
+        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_4);
+
+        String response = client.prompt(prompt).call().content();
+
+        log.info("Received response from OpenAI using similarity search: {}", response);
+        return new Answer(response);
     }
 
     private List<Message> getInstructions(Resource template, String keyWord, String value) {
