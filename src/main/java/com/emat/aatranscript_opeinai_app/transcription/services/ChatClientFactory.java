@@ -1,4 +1,4 @@
-package com.emat.aatranscript_opeinai_app.services;
+package com.emat.aatranscript_opeinai_app.transcription.services;
 
 import com.emat.aatranscript_opeinai_app.global.OpeApiParams;
 import org.springframework.ai.chat.client.ChatClient;

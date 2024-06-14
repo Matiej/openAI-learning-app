@@ -1,4 +1,4 @@
-package com.emat.aatranscript_opeinai_app.model;
+package com.emat.aatranscript_opeinai_app.transcription.model;
 
 
 public class Answer {

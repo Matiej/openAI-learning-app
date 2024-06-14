@@ -1,11 +1,11 @@
-package com.emat.aatranscript_opeinai_app.controllers;
+package com.emat.aatranscript_opeinai_app.transcription.controllers;
 
 
-import com.emat.aatranscript_opeinai_app.model.Answer;
-import com.emat.aatranscript_opeinai_app.model.CapitalDetailsResponse;
-import com.emat.aatranscript_opeinai_app.model.CapitalResponse;
-import com.emat.aatranscript_opeinai_app.model.Question;
-import com.emat.aatranscript_opeinai_app.services.TranscriptionOpenAiService;
+import com.emat.aatranscript_opeinai_app.transcription.model.Answer;
+import com.emat.aatranscript_opeinai_app.transcription.model.CapitalDetailsResponse;
+import com.emat.aatranscript_opeinai_app.transcription.model.CapitalResponse;
+import com.emat.aatranscript_opeinai_app.transcription.model.Question;
+import com.emat.aatranscript_opeinai_app.transcription.services.TranscriptionOpenAiService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

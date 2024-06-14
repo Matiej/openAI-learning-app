@@ -1,4 +1,4 @@
-package com.emat.aatranscript_opeinai_app.truckadvisor.model;
+package com.emat.aatranscript_opeinai_app.truckadvisor.controllers;
 
-public record RestTruckQuestion(String question) {
+record RestTruckAdvRequest(String question) {
 }

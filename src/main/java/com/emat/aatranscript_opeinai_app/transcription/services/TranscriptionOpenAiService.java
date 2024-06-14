@@ -1,9 +1,9 @@
-package com.emat.aatranscript_opeinai_app.services;
+package com.emat.aatranscript_opeinai_app.transcription.services;
 
-import com.emat.aatranscript_opeinai_app.model.Answer;
-import com.emat.aatranscript_opeinai_app.model.CapitalDetailsResponse;
-import com.emat.aatranscript_opeinai_app.model.CapitalResponse;
-import com.emat.aatranscript_opeinai_app.model.Question;
+import com.emat.aatranscript_opeinai_app.transcription.model.Answer;
+import com.emat.aatranscript_opeinai_app.transcription.model.CapitalDetailsResponse;
+import com.emat.aatranscript_opeinai_app.transcription.model.CapitalResponse;
+import com.emat.aatranscript_opeinai_app.transcription.model.Question;
 
 public interface TranscriptionOpenAiService {
     Answer getAnswer(Question question);
