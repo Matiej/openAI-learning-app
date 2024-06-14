@@ -1,7 +1,7 @@
-package com.emat.aatranscript_opeinai_app.model;
+package com.emat.aatranscript_opeinai_app.transcription.model;
 
-import com.emat.aatranscript_opeinai_app.controllers.RestCapitalRequest;
-import com.emat.aatranscript_opeinai_app.controllers.RestOpenAiRequest;
+import com.emat.aatranscript_opeinai_app.transcription.controllers.RestCapitalRequest;
+import com.emat.aatranscript_opeinai_app.transcription.controllers.RestOpenAiRequest;
 
 public class Question {
     private String question;

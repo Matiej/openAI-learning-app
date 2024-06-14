@@ -1,17 +1,14 @@
-package com.emat.aatranscript_opeinai_app.global;
+package com.emat.aatranscript_opeinai_app.global.vecotrprops;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-
-import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "sfg.aiapp")
 public class VectorStoreProperties {
 
     private String vectorStorePath;
-    private List<Resource> documentsToLoad;
+    private DocumentsToLoad documentsToLoad;
 
 
     public String getVectorStorePath() {
@@ -22,11 +19,11 @@ public class VectorStoreProperties {
         this.vectorStorePath = vectorStorePath;
     }
 
-    public List<Resource> getDocumentsToLoad() {
+    public DocumentsToLoad getDocumentsToLoad() {
         return documentsToLoad;
     }
 
-    public void setDocumentsToLoad(List<Resource> documentsToLoad) {
+    public void setDocumentsToLoad(DocumentsToLoad documentsToLoad) {
         this.documentsToLoad = documentsToLoad;
     }
 }

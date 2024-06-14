@@ -1,4 +1,4 @@
-package com.emat.aatranscript_opeinai_app.controllers;
+package com.emat.aatranscript_opeinai_app.transcription.controllers;
 
 import jakarta.validation.constraints.NotNull;
 
