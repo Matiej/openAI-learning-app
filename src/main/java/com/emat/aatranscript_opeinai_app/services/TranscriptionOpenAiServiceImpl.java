@@ -39,12 +39,12 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
     private Resource systemPromptResource;
     @Value("classpath:templates/get-capital-user-prompt.st")
     private Resource userPromptResource;
-    @Value("classpath:templates/rag-prompt.st")
+    @Value("classpath:templates/rag-prompt-metadata.st")
     private Resource ragPromptResource;
 
     @Override
     public Answer getAnswer(Question question) {
-        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_4);
+        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
         String response = client.prompt()
                 .user(question.getQuestion() + "?")
                 .call()
@@ -109,7 +109,13 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
 
         ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_4);
 
-        String response = client.prompt(prompt).call().content();
+        List<Message> instructions = prompt.getInstructions();
+        ChatResponse chatResponse = client.prompt()
+                .system(LANGUAGE_PROMPT)
+                .messages(instructions)
+                .call()
+                .chatResponse();
+        String response = chatResponse.getResult().getOutput().getContent();
 
         log.info("Received response from OpenAI using similarity search: {}", response);
         return new Answer(response);
