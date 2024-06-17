@@ -3,22 +3,22 @@ package com.emat.aatranscript_opeinai_app.global.vecotrprops;
 import org.springframework.core.io.Resource;
 
 public class DocumentsToLoad {
-    private Resource transcript;
-    private TruckAdvisor truckadvisor;
+    private Resource moviesDataFile;
+    private TruckAdvisor truckAdvisor;
 
-    public Resource getTranscript() {
-        return transcript;
+    public Resource getMoviesDataFile() {
+        return moviesDataFile;
     }
 
-    public void setTranscript(Resource transcript) {
-        this.transcript = transcript;
+    public void setMoviesDataFile(Resource moviesDataFile) {
+        this.moviesDataFile = moviesDataFile;
     }
 
-    public TruckAdvisor getTruckadvisor() {
-        return truckadvisor;
+    public TruckAdvisor getTruckAdvisor() {
+        return truckAdvisor;
     }
 
-    public void setTruckadvisor(TruckAdvisor truckadvisor) {
-        this.truckadvisor = truckadvisor;
+    public void setTruckAdvisor(TruckAdvisor truckAdvisor) {
+        this.truckAdvisor = truckAdvisor;
     }
 }

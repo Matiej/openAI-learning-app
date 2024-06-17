@@ -7,16 +7,16 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "sfg.aiapp")
 public class VectorStoreProperties {
 
-    private String vectorStorePath;
+    private String simpleVectorStorePath;
     private DocumentsToLoad documentsToLoad;
 
 
-    public String getVectorStorePath() {
-        return vectorStorePath;
+    public String getSimpleVectorStorePath() {
+        return simpleVectorStorePath;
     }
 
-    public void setVectorStorePath(String vectorStorePath) {
-        this.vectorStorePath = vectorStorePath;
+    public void setSimpleVectorStorePath(String simpleVectorStorePath) {
+        this.simpleVectorStorePath = simpleVectorStorePath;
     }
 
     public DocumentsToLoad getDocumentsToLoad() {
