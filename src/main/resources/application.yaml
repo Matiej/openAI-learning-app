@@ -45,3 +45,8 @@ sfg:
           - https://yamahaoutboards.com/outboards/xto-offshore/v8-5-6l/xf425/pb_spt_open-322_tw_lxf425usb2_8-26-2021_occ
           # Scout 380 LXF - Weight 19,443 lbs
           - https://yamahaoutboards.com/outboards/xto-offshore/v8-5-6l/xf425/pb_sct_380lxf_tr_xf425_8-30-2018_occ
+  weather:
+    client:
+      apiKey: ${NINJA_WEATHER_API_KEY}
+      url: https://api.api-ninjas.com
+      weatherPath: /v1/weather
