@@ -23,13 +23,13 @@ public class VectorStoreConfig {
     @Bean
     SimpleVectorStore simpleVectorStore(EmbeddingModel embeddingmodel, VectorStoreProperties vectorStoreProperties) {
         var store = new SimpleVectorStore(embeddingmodel);
-        File file = new File(vectorStoreProperties.getVectorStorePath());
+        File file = new File(vectorStoreProperties.getSimpleVectorStorePath());
         if (file.exists()) {
             store.load(file);
             log.info("Loaded vector store from file: {} ", file.getAbsolutePath());
         } else {
             log.debug("Loading documents into vector store");
-            Resource transcriptDocument = vectorStoreProperties.getDocumentsToLoad().getTranscript();
+            Resource transcriptDocument = vectorStoreProperties.getDocumentsToLoad().getMoviesDataFile();
             log.debug("Loading document: {}", transcriptDocument.getFilename());
             TikaDocumentReader documentReader = new TikaDocumentReader(transcriptDocument);
             List<Document> documentList = documentReader.get();

@@ -6,4 +6,5 @@ import com.emat.aatranscript_opeinai_app.truckadvisor.model.TruckAdvQuestion;
 public interface TruckAdvService {
 
     TruckAdvAnswer getBasicAdvice(TruckAdvQuestion question);
+    TruckAdvAnswer getLowestPriceTruckAdvice(TruckAdvQuestion question);
 }

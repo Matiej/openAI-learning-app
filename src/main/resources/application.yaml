@@ -23,17 +23,20 @@ spring:
   output:
     ansi:
       enabled: always
-  doc:
-    swagger-ui:
-      path: /docs
+
+springdoc:
+  swagger-ui:
+    path: /docs
 
 sfg:
   aiapp:
-    vectorStorePath: vectorstore_tri.json
+    simpleVectorStorePath: vectorstore_tri.json
     documentsToLoad:
-      transcript: classpath:/movies500Trimmed.csv
-      truckadvisor:
-        - classpath:/towvehicles.txt
+      moviesDataFile: classpath:/movies500Trimmed.csv
+      truckAdvisor:
+        filesToLoad:
+          - classpath:/towvehicles.txt
+        pathsToLoad:
           # Sportsman 212 - Weight 3,458 lbs
           - https://yamahaoutboards.com/outboards/350-150-hp/in-line-4/f150-(i4)/pb_spt_open_212_f150xb_9-10-2020-occ
           # Sportsman 232 - Weight 5,001  lbs
