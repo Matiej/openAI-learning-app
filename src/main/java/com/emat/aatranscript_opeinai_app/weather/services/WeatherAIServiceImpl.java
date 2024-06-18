@@ -3,12 +3,13 @@ package com.emat.aatranscript_opeinai_app.weather.services;
 import com.emat.aatranscript_opeinai_app.transcription.services.ChatClientFactory;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherAnswer;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherQuestion;
-import com.emat.aatranscript_opeinai_app.weather.ninjaweathertapi.NinjaWeatherApiService;
-import com.emat.aatranscript_opeinai_app.weather.ninjaweathertapi.NinjaWeatherResponse;
+import com.emat.aatranscript_opeinai_app.weather.model.WeatherRequest;
+import com.emat.aatranscript_opeinai_app.weather.model.WeatherResponse;
+import com.emat.aatranscript_opeinai_app.weather.ninja_weather_api.NinjaWeatherApiService;
+import com.emat.aatranscript_opeinai_app.weather.ninja_weather_api.NinjaWeatherResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -30,14 +31,14 @@ public class WeatherAIServiceImpl implements WeatherAIService {
     private Resource weatherUserPromptResource;
 
     @Override
-    public WeatherAnswer getWeatherBasicAnswer(WeatherQuestion question) {
+    public WeatherAnswer getWeatherBasicAnswer(String city) {
         OpenAiApi.ChatModel gpt4 = OpenAiApi.ChatModel.GPT_4;
         ChatClient client = chatClientFactory.createClient(gpt4);
-        log.info("Asking weather for the city: {}, using model: {}", question.city(), gpt4);
+        log.info("Asking weather for the city: {}, using model: {}",city, gpt4);
         PromptTemplate userPromptTemplate = new PromptTemplate(weatherUserPromptResource);
-        Prompt userPrompt = userPromptTemplate.create(Map.of("city", question.city()));
+        Prompt userPrompt = userPromptTemplate.create(Map.of("city", city));
 
-        NinjaWeatherResponse weatherFromApi = getWeatherFromApi(question.city());
+        WeatherResponse weatherFromApi = getWeatherFromApi(new WeatherRequest(city, null, null));
 
 //        ChatResponse chatResponse = client.prompt()
 //                .system(LANGUAGE_PROMPT)
@@ -50,9 +51,9 @@ public class WeatherAIServiceImpl implements WeatherAIService {
         return new WeatherAnswer("Temporary answer from WeatherAIServiceImpl.");
     }
 
-    private NinjaWeatherResponse getWeatherFromApi(String city) {
-        NinjaWeatherResponse weather = ninjaWeatherApiService.getWeather(city);
-        log.info("Received weather from Ninja API: {} for the city: {}", weather, city);
-        return weather;
+    private WeatherResponse getWeatherFromApi(WeatherRequest request) {
+        WeatherResponse weatherResponse = ninjaWeatherApiService.getWeather(request);
+        log.info("Received weather from Ninja API: {} for the city: {}", weatherResponse, request.location());
+        return weatherResponse;
     }
 }
