@@ -1,2 +1,2 @@
 QUESTION:
-What is the weather like in the {city} ?
+What is the weather like in the location: {city} ?
