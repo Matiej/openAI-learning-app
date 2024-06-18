@@ -14,6 +14,7 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
+import org.springframework.ai.model.ModelOptionsUtils;
 import org.springframework.ai.model.function.FunctionCallbackWrapper;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -42,12 +43,18 @@ public class WeatherAIServiceImpl implements WeatherAIService {
     public WeatherAnswer getWeatherBasicAnswer(String city) {
         OpenAiApi.ChatModel gpt4 = OpenAiApi.ChatModel.GPT_4;
         ChatClient client = chatClientFactory.createClient(gpt4);
-        log.info("Asking weather for the city: {}, using model: {}",city, gpt4);
+        log.info("Asking weather for the city: {}, using model: {}", city, gpt4);
 
         var promptOptions = OpenAiChatOptions.builder()
                 .withFunctionCallbacks(List.of(FunctionCallbackWrapper.builder(new WeatherServiceFunction(ninjaWeatherApiService))
                         .withName("CurrentWeather")
-                        .withDescription("Get the current weather for a location").build()))
+                        .withDescription("Get the current weather for a location")
+                        .withResponseConverter((response) -> {
+                            String jsonSchema = ModelOptionsUtils.getJsonSchema(WeatherResponse.class, false);
+                            String jsonString = ModelOptionsUtils.toJsonString(response);
+                            return jsonSchema + "\n" + jsonString;
+                        })
+                        .build()))
                 .build();
         List<Message> messages = new ArrayList<>();
         messages.add(new SystemPromptTemplate(systemPromptResource).createMessage());

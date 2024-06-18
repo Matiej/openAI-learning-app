@@ -37,14 +37,20 @@ class NinjaWeatherApiServiceImpl implements NinjaWeatherApiService {
                 .toUri();
         log.info("Sending request to: {}", uri);
 
-        ResponseEntity<NinjaWeatherResponse> responseEntity = restTemplate.getForEntity(uri, NinjaWeatherResponse.class);
-
-        if (responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody() != null) {
-            NinjaWeatherResponse response = responseEntity.getBody();
-            return response.toWeatherResponse();
-        } else {
-            log.error("Failed to get weather data, status code: {}, for request: {}", responseEntity.getStatusCode(), uri);
-            throw new RuntimeException("Failed to get weather data");
+        try {
+            ResponseEntity<NinjaWeatherResponse> responseEntity = restTemplate.getForEntity(uri, NinjaWeatherResponse.class);
+            if (responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody() != null) {
+                NinjaWeatherResponse response = responseEntity.getBody();
+                return response.toWeatherResponse();
+            } else {
+                log.error("Failed to get weather data, status code: {}, for request: {}", responseEntity.getStatusCode(), uri);
+                throw new RuntimeException("Failed to get weather data");
+            }
+        } catch (Exception e) {
+            log.error("Failed to get weather data for request: {}", uri, e);
+            throw new RuntimeException("Failed to get weather data", e);
         }
+
+
     }
 }
