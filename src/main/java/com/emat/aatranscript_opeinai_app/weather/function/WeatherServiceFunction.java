@@ -3,8 +3,6 @@ package com.emat.aatranscript_opeinai_app.weather.function;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherRequest;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherResponse;
 import com.emat.aatranscript_opeinai_app.weather.ninja_weather_api.NinjaWeatherApiService;
-import com.emat.aatranscript_opeinai_app.weather.services.WeatherAIService;
-import org.springframework.ai.evaluation.EvaluationRequest;
 
 import java.util.function.Function;
 

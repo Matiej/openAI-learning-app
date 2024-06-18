@@ -1,9 +1,8 @@
 package com.emat.aatranscript_opeinai_app.transcription.services;
 
+import com.emat.aatranscript_opeinai_app.modelpromptengineering.BaseTest;
 import com.emat.aatranscript_opeinai_app.transcription.model.Answer;
 import com.emat.aatranscript_opeinai_app.transcription.model.Question;
-import com.emat.aatranscript_opeinai_app.modelpromptengineering.BaseTest;
-import com.emat.aatranscript_opeinai_app.transcription.services.TranscriptionOpenAiServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

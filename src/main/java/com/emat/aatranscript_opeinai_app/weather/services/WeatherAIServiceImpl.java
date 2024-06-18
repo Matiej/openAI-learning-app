@@ -2,11 +2,9 @@ package com.emat.aatranscript_opeinai_app.weather.services;
 
 import com.emat.aatranscript_opeinai_app.transcription.services.ChatClientFactory;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherAnswer;
-import com.emat.aatranscript_opeinai_app.weather.model.WeatherQuestion;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherRequest;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherResponse;
 import com.emat.aatranscript_opeinai_app.weather.ninja_weather_api.NinjaWeatherApiService;
-import com.emat.aatranscript_opeinai_app.weather.ninja_weather_api.NinjaWeatherResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
