@@ -1,0 +1,2 @@
+Answer using the same language in which the name of the location appears in the question. If location appears in different language then Polish or English, answer in English.
+EXAMPLE: What is the weather in Warszawa? - Answer: Temperatura w Warszawie to 27 stopni celcujsza, wilgotnosc na poziomie 55%.
