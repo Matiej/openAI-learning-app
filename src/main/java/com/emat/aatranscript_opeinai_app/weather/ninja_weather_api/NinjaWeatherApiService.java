@@ -1,5 +1,8 @@
-package com.emat.aatranscript_opeinai_app.weather.ninjaweathertapi;
+package com.emat.aatranscript_opeinai_app.weather.ninja_weather_api;
+
+import com.emat.aatranscript_opeinai_app.weather.model.WeatherRequest;
+import com.emat.aatranscript_opeinai_app.weather.model.WeatherResponse;
 
 public interface NinjaWeatherApiService {
-    NinjaWeatherResponse getWeather(String city);
+    WeatherResponse getWeather(WeatherRequest request);
 }
