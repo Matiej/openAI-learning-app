@@ -1,6 +1,7 @@
 package com.emat.aatranscript_opeinai_app.global;
 
 import com.emat.aatranscript_opeinai_app.global.weatherprops.WeatherClientProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Configuration
 public class WeatherClientConfig {
 
@@ -32,6 +34,7 @@ public class WeatherClientConfig {
             headers.put(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
             headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             request.getHeaders().setAll(headers);
+            log.info("Request headers: {} for request: {}", request.getHeaders(), request.getURI());
             return execution.execute(request, body);
         };
         restTemplate.setInterceptors(Collections.singletonList(interceptor));
