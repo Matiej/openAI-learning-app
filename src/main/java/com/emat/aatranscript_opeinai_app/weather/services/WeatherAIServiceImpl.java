@@ -1,6 +1,6 @@
 package com.emat.aatranscript_opeinai_app.weather.services;
 
-import com.emat.aatranscript_opeinai_app.transcription.services.ChatClientFactory;
+import com.emat.aatranscript_opeinai_app.global.OpenAiClientFactory;
 import com.emat.aatranscript_opeinai_app.weather.function.WeatherServiceFunction;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherAnswer;
 import com.emat.aatranscript_opeinai_app.weather.model.WeatherRequest;
@@ -30,7 +30,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Service
 public class WeatherAIServiceImpl implements WeatherAIService {
-    private final ChatClientFactory chatClientFactory;
+    private final OpenAiClientFactory openAiClientFactory;
     private final NinjaWeatherApiService ninjaWeatherApiService;
 
     @Value("classpath:templates/weather-user-prompt.st")
@@ -42,7 +42,7 @@ public class WeatherAIServiceImpl implements WeatherAIService {
     @Override
     public WeatherAnswer getWeatherBasicAnswer(String city) {
         OpenAiApi.ChatModel gpt4 = OpenAiApi.ChatModel.GPT_4;
-        ChatClient client = chatClientFactory.createClient(gpt4);
+        ChatClient client = openAiClientFactory.createChatClient(gpt4);
         log.info("Asking weather for the city: {}, using model: {}", city, gpt4);
 
         var promptOptions = OpenAiChatOptions.builder()

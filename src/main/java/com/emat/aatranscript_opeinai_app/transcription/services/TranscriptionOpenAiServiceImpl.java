@@ -1,5 +1,6 @@
 package com.emat.aatranscript_opeinai_app.transcription.services;
 
+import com.emat.aatranscript_opeinai_app.global.OpenAiClientFactory;
 import com.emat.aatranscript_opeinai_app.transcription.model.Answer;
 import com.emat.aatranscript_opeinai_app.transcription.model.CapitalDetailsResponse;
 import com.emat.aatranscript_opeinai_app.transcription.model.CapitalResponse;
@@ -27,11 +28,11 @@ import java.util.Map;
 @Service
 class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
     private final String LANGUAGE_PROMPT = "Answer using english language.";
-    private final ChatClientFactory chatClientFactory;
+    private final OpenAiClientFactory openAiClientFactory;
     private final SimpleVectorStore simpleVectorStore;
 
-    public TranscriptionOpenAiServiceImpl(ChatClientFactory chatClientFactory, SimpleVectorStore simpleVectorStore) {
-        this.chatClientFactory = chatClientFactory;
+    public TranscriptionOpenAiServiceImpl(OpenAiClientFactory openAiClientFactory, SimpleVectorStore simpleVectorStore) {
+        this.openAiClientFactory = openAiClientFactory;
         this.simpleVectorStore = simpleVectorStore;
     }
 
@@ -44,7 +45,7 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
 
     @Override
     public Answer getAnswer(Question question) {
-        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
+        ChatClient client = openAiClientFactory.createChatClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
         String response = client.prompt()
                 .user(question.getQuestion() + "?")
                 .call()
@@ -55,7 +56,7 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
 
     @Override
     public CapitalResponse getCapital(Question country) {
-        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
+        ChatClient client = openAiClientFactory.createChatClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
 
         BeanOutputConverter<CapitalResponse> parser = new BeanOutputConverter<>(CapitalResponse.class);
         String capitalResponseExample = parser.getFormat();
@@ -80,7 +81,7 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
 
     @Override
     public CapitalDetailsResponse getCapitalWithDetails(Question question) {
-        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
+        ChatClient client = openAiClientFactory.createChatClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
         BeanOutputConverter<CapitalDetailsResponse> parser = new BeanOutputConverter<>(CapitalDetailsResponse.class);
         String capitalDetailResponseJSON = parser.getFormat();
         List<Message> instructions = getInstructions(systemPromptResource, "capitalResponse", capitalDetailResponseJSON);
@@ -107,7 +108,7 @@ class TranscriptionOpenAiServiceImpl implements TranscriptionOpenAiService {
         Prompt prompt = promptTemplate.create(Map.of("input", question.getQuestion(),
                 "documents", String.join("\n", contentList)));
 
-        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_4);
+        ChatClient client = openAiClientFactory.createChatClient(OpenAiApi.ChatModel.GPT_4);
 
         List<Message> instructions = prompt.getInstructions();
         ChatResponse chatResponse = client.prompt()
