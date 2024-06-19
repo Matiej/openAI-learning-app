@@ -1,6 +1,6 @@
 package com.emat.aatranscript_opeinai_app.truckadvisor.services;
 
-import com.emat.aatranscript_opeinai_app.transcription.services.ChatClientFactory;
+import com.emat.aatranscript_opeinai_app.global.OpenAiClientFactory;
 import com.emat.aatranscript_opeinai_app.truckadvisor.model.TruckAdvAnswer;
 import com.emat.aatranscript_opeinai_app.truckadvisor.model.TruckAdvQuestion;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TruckAdvServiceImpl implements TruckAdvService {
     private final String LANGUAGE_PROMPT = "answer using the same language in which the question was asked.";
-    private final ChatClientFactory chatClientFactory;
+    private final OpenAiClientFactory openAiClientFactory;
     private final VectorStore vectorStore;
 
     @Value("classpath:templates/rag-truck-advisor-prompt.st")
@@ -39,7 +39,7 @@ public class TruckAdvServiceImpl implements TruckAdvService {
 
     @Override
     public TruckAdvAnswer getBasicAdvice(TruckAdvQuestion question) {
-        ChatClient client = chatClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
+        ChatClient client = openAiClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
         log.info("Asking truck advisor question: {}, using model: {}", question.question(), OpenAiApi.ChatModel.GPT_3_5_TURBO);
         PromptTemplate userPromptTemplate = new PromptTemplate(truckAdvisorPrompt);
         Prompt userPrompt = userPromptTemplate.create(Map.of("input", question.question()));
@@ -56,7 +56,7 @@ public class TruckAdvServiceImpl implements TruckAdvService {
     @Override
     public TruckAdvAnswer getLowestPriceTruckAdvice(TruckAdvQuestion question) {
         OpenAiApi.ChatModel gpt4 = OpenAiApi.ChatModel.GPT_4;
-        ChatClient client = chatClientFactory.createClient(gpt4);
+        ChatClient client = openAiClientFactory.createClient(gpt4);
         log.info("Asking truck advisor lowest price truck question: {}, using model: {}", question.question(), gpt4);
 
         Message systemMessage = new SystemPromptTemplate(truckAdvisorSystemPrompt).createMessage();

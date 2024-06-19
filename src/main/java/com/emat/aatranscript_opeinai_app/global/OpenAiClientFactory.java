@@ -1,6 +1,5 @@
-package com.emat.aatranscript_opeinai_app.transcription.services;
+package com.emat.aatranscript_opeinai_app.global;
 
-import com.emat.aatranscript_opeinai_app.global.OpeApiParams;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
@@ -11,14 +10,14 @@ import java.util.EnumMap;
 import java.util.Map;
 
 @Component
-public class ChatClientFactory {
+public class OpenAiClientFactory {
 
     private static final int MAX_TOKENS = 240;
     private static final float TEMPERATURE = 0.7f;
     private static final Map<OpenAiApi.ChatModel, ChatClient> clientMap = new EnumMap<>(OpenAiApi.ChatModel.class);
     private final OpeApiParams opeApiParams;
 
-    public ChatClientFactory(OpeApiParams opeApiParams) {
+    public OpenAiClientFactory(OpeApiParams opeApiParams) {
         this.opeApiParams = opeApiParams;
         initializeClients();
     }
