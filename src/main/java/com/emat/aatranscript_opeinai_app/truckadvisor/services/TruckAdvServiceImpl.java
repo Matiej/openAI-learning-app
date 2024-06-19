@@ -39,7 +39,7 @@ public class TruckAdvServiceImpl implements TruckAdvService {
 
     @Override
     public TruckAdvAnswer getBasicAdvice(TruckAdvQuestion question) {
-        ChatClient client = openAiClientFactory.createClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
+        ChatClient client = openAiClientFactory.createChatClient(OpenAiApi.ChatModel.GPT_3_5_TURBO);
         log.info("Asking truck advisor question: {}, using model: {}", question.question(), OpenAiApi.ChatModel.GPT_3_5_TURBO);
         PromptTemplate userPromptTemplate = new PromptTemplate(truckAdvisorPrompt);
         Prompt userPrompt = userPromptTemplate.create(Map.of("input", question.question()));
@@ -56,7 +56,7 @@ public class TruckAdvServiceImpl implements TruckAdvService {
     @Override
     public TruckAdvAnswer getLowestPriceTruckAdvice(TruckAdvQuestion question) {
         OpenAiApi.ChatModel gpt4 = OpenAiApi.ChatModel.GPT_4;
-        ChatClient client = openAiClientFactory.createClient(gpt4);
+        ChatClient client = openAiClientFactory.createChatClient(gpt4);
         log.info("Asking truck advisor lowest price truck question: {}, using model: {}", question.question(), gpt4);
 
         Message systemMessage = new SystemPromptTemplate(truckAdvisorSystemPrompt).createMessage();

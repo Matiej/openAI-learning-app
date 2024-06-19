@@ -42,7 +42,7 @@ public class WeatherAIServiceImpl implements WeatherAIService {
     @Override
     public WeatherAnswer getWeatherBasicAnswer(String city) {
         OpenAiApi.ChatModel gpt4 = OpenAiApi.ChatModel.GPT_4;
-        ChatClient client = openAiClientFactory.createClient(gpt4);
+        ChatClient client = openAiClientFactory.createChatClient(gpt4);
         log.info("Asking weather for the city: {}, using model: {}", city, gpt4);
 
         var promptOptions = OpenAiChatOptions.builder()
