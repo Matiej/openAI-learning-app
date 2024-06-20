@@ -1,6 +1,5 @@
 package com.emat.aatranscript_opeinai_app.lector.controllers;
 
-import com.emat.aatranscript_opeinai_app.lector.model.LectorLanguage;
 import com.emat.aatranscript_opeinai_app.lector.model.LectorRequest;
 import com.emat.aatranscript_opeinai_app.lector.model.LectorResponse;
 import com.emat.aatranscript_opeinai_app.lector.services.LectorService;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.web.reactive.function.server.RequestPredicates.contentType;
+
 @Slf4j
 @RestController
 @RequestMapping("/lector")
@@ -21,19 +22,25 @@ public class LectorController {
 
     private final LectorService lectorService;
 
-    @PostMapping(value = "/read", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LectorResponse> read(@RequestBody RestLectorRequest request) {
-        log.info("Received request to read text, using language: {}", request.language());
+    @PostMapping(value = "/read", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<byte[]> read(@RequestBody RestLectorRequest request) {
+        log.info("Received request to read text: '{}......', total text length: {}", request.textToRead().substring(0, 10), request.textToRead().length());
 
-        LectorRequest.LectorRequestBuilder lectorRequestBuilder = LectorRequest.builder()
-                .textToRead(request.textToRead())
-                .language(request.language());
+        LectorRequest lectorRequest = new LectorRequest(request.textToRead());
 
-        if (!LectorLanguage.isValidLanguage(request.language().name())) {
-            log.error("Invalid language provided: {}, default English language used", request.language());
-            lectorRequestBuilder.language(LectorLanguage.EN);
-        }
+        byte[] speechAudio = lectorService.readText(lectorRequest).speechAudio();
+        log.info("Returning audio response, size: {}", calculateSize(speechAudio));
+        
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf("audio/mp3"))
+                .header("Content-Disposition", "attachment; filename=audio.mp3")
+                .body(speechAudio);
+    }
 
-        return ResponseEntity.ok(lectorService.readText(lectorRequestBuilder.build()));
+    private String calculateSize(byte[] audioFile) {
+        int sizeInBytes = audioFile.length;
+        double sizeInMb = (double) sizeInBytes / (1024*1024);
+        return String.format("%.2f MB", sizeInMb);
     }
 }
