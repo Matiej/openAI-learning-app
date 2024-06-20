@@ -1,13 +1,14 @@
-package com.emat.aatranscript_opeinai_app.lector.model;
+package com.emat.aatranscript_opeinai_app.vision_artist.model;
 
-public enum LectorLanguage {
+public enum VisionLanguageEnum {
 
     PL("You are a Polish speaker. Please communicate in Polish for all responses."),
-    EN("You are an English speaker. Please communicate in English for all responses.");
+    EN("You are an English speaker. Please communicate in English for all responses."),
+    DE("You are an German speaker. Please communicate in English for all responses.");
 
     private final String languagePrompt;
 
-    LectorLanguage(String languagePrompt) {
+    VisionLanguageEnum(String languagePrompt) {
         this.languagePrompt = languagePrompt;
     }
 
@@ -16,7 +17,7 @@ public enum LectorLanguage {
     }
 
     public static boolean isValidLanguage(String language) {
-        for (LectorLanguage lang : values()) {
+        for (VisionLanguageEnum lang : values()) {
             if (lang.name().equalsIgnoreCase(language)) {
                 return true;
             }
