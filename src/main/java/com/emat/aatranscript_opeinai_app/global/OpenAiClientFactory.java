@@ -26,6 +26,7 @@ public class OpenAiClientFactory {
         this.opeApiParams = opeApiParams;
         this.restClientBuilder = restClientBuilder;
         initializeClients();
+        initializeOpenAiChatModels();
     }
 
     private void initializeClients() {
@@ -70,6 +71,4 @@ public class OpenAiClientFactory {
         OpenAiImageModel openAiImageModel = new OpenAiImageModel(openAiImageApi);
         return openAiImageModel;
     }
-
-
 }
