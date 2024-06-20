@@ -22,7 +22,7 @@ public class WeatherController {
     @PostMapping(value = "/get-weather", consumes = "application/json", produces = "application/json")
     public ResponseEntity<WeatherAnswer> getWeather(@RequestBody @Valid RestWeatherRequest request) {
         log.info("Received request to ask question: {}, on the endpoint: {}", request.city(), "/weather/getWeather");
-        WeatherAnswer answer = weatherService.getWeatherBasicAnswer(request.city());
+        WeatherAnswer answer = weatherService.getWeatherBasicAnswer(request.city(), request.country());
         return ResponseEntity.ok(answer);
     }
 }
