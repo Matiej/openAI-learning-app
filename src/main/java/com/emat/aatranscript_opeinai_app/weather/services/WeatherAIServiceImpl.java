@@ -35,12 +35,13 @@ public class WeatherAIServiceImpl implements WeatherAIService {
 
     @Value("classpath:templates/weather-user-prompt.st")
     private Resource weatherUserPromptResource;
-
+    @Value("classpath:templates/weather.user-country-prompt.st")
+    private Resource countryPromptResource;
     @Value("classpath:templates/weather-system-prompt.st")
     private Resource systemPromptResource;
 
     @Override
-    public WeatherAnswer getWeatherBasicAnswer(String city) {
+    public WeatherAnswer getWeatherBasicAnswer(String city, String country) {
         OpenAiApi.ChatModel gpt4 = OpenAiApi.ChatModel.GPT_4;
         ChatClient client = openAiClientFactory.createChatClient(gpt4);
         log.info("Asking weather for the city: {}, using model: {}", city, gpt4);
@@ -58,8 +59,10 @@ public class WeatherAIServiceImpl implements WeatherAIService {
                 .build();
         List<Message> messages = new ArrayList<>();
         messages.add(new SystemPromptTemplate(systemPromptResource).createMessage());
-        messages.addAll(new ArrayList<>(new PromptTemplate(weatherUserPromptResource).create(Map.of("city", city)).getInstructions()));
-
+        messages.addAll(new ArrayList<>(new PromptTemplate(weatherUserPromptResource).create(Map.of("city", city, "country", country)).getInstructions()));
+        if (country != null && !country.isBlank()) {
+            messages.addAll(new ArrayList<>(new PromptTemplate(countryPromptResource).create(Map.of("country", country)).getInstructions()));
+        }
         Prompt prompt = new Prompt(messages, promptOptions);
 
         ChatResponse chatResponse = client.prompt(prompt)
@@ -67,12 +70,5 @@ public class WeatherAIServiceImpl implements WeatherAIService {
         String chatOutput = chatResponse.getResult().getOutput().getContent();
         log.info("Received chat response: {}", chatOutput);
         return new WeatherAnswer(chatOutput);
-    }
-
-    private WeatherResponse getWeatherFromApi(WeatherRequest request) {
-        WeatherServiceFunction weatherServiceFunction = new WeatherServiceFunction(ninjaWeatherApiService);
-        WeatherResponse response = weatherServiceFunction.apply(request);
-        log.info("Received weather from Ninja API: {} for the city: {}", response, request.location());
-        return response;
     }
 }

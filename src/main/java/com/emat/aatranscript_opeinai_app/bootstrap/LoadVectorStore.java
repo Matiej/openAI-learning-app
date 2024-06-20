@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Component
+//@Component
 public class LoadVectorStore implements CommandLineRunner {
 
     @Autowired
@@ -58,9 +58,9 @@ public class LoadVectorStore implements CommandLineRunner {
         }
 //        List<String> sportsman = vectorStore.similaritySearch("Sportsman").stream().map(Document::getId).toList();
 //        Optional<Boolean> delete = vectorStore.delete(sportsman);
-        int sportsman1 = vectorStore.similaritySearch("Sportsman").size();
+//        int sportsman1 = vectorStore.similaritySearch("Sportsman").size();
 
-        log.info("Number of documents with id: {} in Vector Store", sportsman1);
+//        log.info("Number of documents with id: {} in Vector Store", sportsman1);
     }
 
 }
