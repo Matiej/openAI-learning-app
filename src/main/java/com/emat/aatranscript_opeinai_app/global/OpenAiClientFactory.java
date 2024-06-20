@@ -1,10 +1,9 @@
 package com.emat.aatranscript_opeinai_app.global;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.OpenAiImageModel;
+import org.springframework.ai.openai.*;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.openai.api.OpenAiAudioApi;
 import org.springframework.ai.openai.api.OpenAiImageApi;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -70,5 +69,16 @@ public class OpenAiClientFactory {
         OpenAiImageApi openAiImageApi = new OpenAiImageApi("https://api.openai.com", opeApiParams.getOpenAIKey(), restClientBuilder);
         OpenAiImageModel openAiImageModel = new OpenAiImageModel(openAiImageApi);
         return openAiImageModel;
+    }
+
+    public OpenAiAudioSpeechModel createAudioSpeechModel() {
+        OpenAiAudioSpeechOptions options = OpenAiAudioSpeechOptions.builder()
+                .withVoice(OpenAiAudioApi.SpeechRequest.Voice.NOVA)
+                .withSpeed(1.0f)
+                .withResponseFormat(OpenAiAudioApi.SpeechRequest.AudioResponseFormat.MP3)
+                .withModel(OpenAiAudioApi.TtsModel.TTS_1_HD.value)
+                .build();
+        OpenAiAudioApi openAiAudioApi = new OpenAiAudioApi(opeApiParams.getOpenAIKey());
+        return new OpenAiAudioSpeechModel(openAiAudioApi,options);
     }
 }
