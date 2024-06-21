@@ -2,9 +2,10 @@ package com.emat.aatranscript_opeinai_app.vision_artist.model;
 
 public enum VisionLanguageEnum {
 
-    PL("You are a Polish speaker. Please communicate in Polish for all responses."),
-    EN("You are an English speaker. Please communicate in English for all responses."),
-    DE("You are an German speaker. Please communicate in English for all responses.");
+    PL("You are a translator. Please translate the following text to Polish"),
+    EN("You are a translator. Please translate the following text to English."),
+    DE("You are a translator. Please translate the following text to German.");
+
 
     private final String languagePrompt;
 
